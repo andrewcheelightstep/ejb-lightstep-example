@@ -53,7 +53,6 @@ public class TracerInitializer
             Tracer tracer = new JRETracer(
                     new com.lightstep.tracer.shared.Options.OptionsBuilder()
                             .withComponentName("exampleEJBApp")
-//                            .withAccessToken("f7d7d8a6e5aeb630d50c3d295fa91012")
                             .withAccessToken("developer")
                             .withCollectorHost("localhost")
                             .withCollectorPort(8360)
