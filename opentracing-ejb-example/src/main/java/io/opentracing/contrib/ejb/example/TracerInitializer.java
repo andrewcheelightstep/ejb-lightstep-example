@@ -1,12 +1,17 @@
 package io.opentracing.contrib.ejb.example;
 
+import com.lightstep.tracer.jre.JRETracer;
+
+import com.lightstep.tracer.shared.Propagator;
 import io.opentracing.Tracer;
-import io.opentracing.contrib.tracerresolver.TracerResolver;
+//import io.opentracing.contrib.tracerresolver.TracerResolver;
+import io.opentracing.propagation.Format;
 import io.opentracing.util.GlobalTracer;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import java.net.MalformedURLException;
 import java.util.logging.Logger;
 
 /**
@@ -17,23 +22,50 @@ import java.util.logging.Logger;
  */
 @Startup
 @Singleton
-public class TracerInitializer {
+public class TracerInitializer
+{
     private static final Logger log = Logger.getLogger(TracerInitializer.class.getName());
 
     @PostConstruct
-    public void init() {
-        if (GlobalTracer.isRegistered()) {
+    public void init()
+    {
+        if (GlobalTracer.isRegistered())
+        {
             log.info("A Tracer is already registered at the GlobalTracer. Skipping resolution via TraceResolver.");
             return;
         }
 
+/*
         Tracer tracer = TracerResolver.resolveTracer();
+
         if (null == tracer) {
             log.info("Could not get a valid OpenTracing Tracer from the classpath. Skipping.");
             return;
         }
 
+
         log.info(String.format("Registering %s as the OpenTracing Tracer", tracer.getClass().getName()));
         GlobalTracer.register(tracer);
+*/
+
+        try
+        {
+            Tracer tracer = new JRETracer(
+                    new com.lightstep.tracer.shared.Options.OptionsBuilder()
+                            .withComponentName("exampleEJBApp")
+//                            .withAccessToken("f7d7d8a6e5aeb630d50c3d295fa91012")
+                            .withAccessToken("developer")
+                            .withCollectorHost("localhost")
+                            .withCollectorPort(8360)
+                            .withCollectorProtocol("http")
+                            .build());
+            log.info(String.format("Registering %s as the OpenTracing Tracer", tracer.getClass().getName()));
+            GlobalTracer.register(tracer);
+        }catch(MalformedURLException mal)
+        {
+            System.out.println(mal.getMessage());
+            mal.printStackTrace();
+        }
+
     }
 }

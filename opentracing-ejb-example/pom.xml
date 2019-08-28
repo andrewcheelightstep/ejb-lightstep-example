@@ -28,6 +28,22 @@
     </dependency>
 
     <dependency>
+      <groupId>com.lightstep.tracer</groupId>
+      <artifactId>lightstep-tracer-jre</artifactId>
+      <version>0.15.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.lightstep.tracer</groupId>
+      <artifactId>tracer-okhttp</artifactId>
+      <version>0.17.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.25</version>
+    </dependency>
+<!--
+    <dependency>
       <groupId>com.uber.jaeger</groupId>
       <artifactId>jaeger-core</artifactId>
       <version>${version.jaeger}</version>
@@ -37,8 +53,8 @@
       <artifactId>jaeger-tracerresolver</artifactId>
       <version>${version.jaeger}</version>
     </dependency>
+-->
   </dependencies>
-
   <build>
     <finalName>opentracing-ejb-example</finalName>
     <plugins>
