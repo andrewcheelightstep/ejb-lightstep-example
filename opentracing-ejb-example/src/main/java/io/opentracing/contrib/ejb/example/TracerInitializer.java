@@ -47,7 +47,7 @@ public class TracerInitializer
         log.info(String.format("Registering %s as the OpenTracing Tracer", tracer.getClass().getName()));
         GlobalTracer.register(tracer);
 */
-//add comment
+
         try
         {
             Tracer tracer = new JRETracer(
